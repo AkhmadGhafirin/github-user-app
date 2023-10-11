@@ -19,6 +19,8 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
     private val viewModel: DetailViewModel by viewModels()
 
+    private var isFavorite = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
@@ -43,6 +45,16 @@ class DetailActivity : AppCompatActivity() {
                     getString(R.string.following, user.following.toString())
                 }
             }.attach()
+
+            fabFavorite.setOnClickListener {
+                if (isFavorite) {
+                    viewModel.deleteFavorite(user)
+                    Toast.makeText(this@DetailActivity, "Remove from Favorite", Toast.LENGTH_SHORT).show()
+                } else {
+                    viewModel.insertFavorite(user)
+                    Toast.makeText(this@DetailActivity, "Add to Favorite", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 
@@ -57,6 +69,21 @@ class DetailActivity : AppCompatActivity() {
             isError.observe(this@DetailActivity) {
                 Toast.makeText(this@DetailActivity, it, Toast.LENGTH_SHORT).show()
             }
+            isFavorite.observe(this@DetailActivity) {
+                showFavIcon(it)
+            }
+            favorite.observe(this@DetailActivity) {
+                showFavIcon(it.login.isNotEmpty())
+            }
+        }
+    }
+
+    private fun showFavIcon(favorite: Boolean) {
+        isFavorite = favorite
+        if (favorite) {
+            binding.fabFavorite.setImageResource(R.drawable.baseline_favorite_24)
+        } else {
+            binding.fabFavorite.setImageResource(R.drawable.baseline_favorite_border_24)
         }
     }
 

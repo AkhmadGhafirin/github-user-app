@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.dagger.hilt.android")
     kotlin("kapt")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -18,7 +19,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "API_KEY", "\"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\"")
+        buildConfigField("String", "API_KEY", "\"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\"")
         buildConfigField("String", "BASE_URL", "\"https://api.github.com/\"")
     }
 
@@ -40,7 +41,6 @@ android {
     }
 
     buildFeatures {
-        dataBinding = true
         viewBinding = true
         buildConfig = true
     }
@@ -55,6 +55,12 @@ dependencies {
 
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
     implementation("androidx.fragment:fragment-ktx:1.6.1")
+
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
+
+    implementation("androidx.room:room-runtime:2.5.2")
+    kapt("androidx.room:room-compiler:2.5.2")
 
     // hilt dependency
     implementation("com.google.dagger:hilt-android:2.48.1")

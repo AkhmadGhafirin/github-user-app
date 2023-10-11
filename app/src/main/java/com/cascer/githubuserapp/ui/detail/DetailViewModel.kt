@@ -19,6 +19,9 @@ class DetailViewModel @Inject constructor(
     private val _user = MutableLiveData<UserModel?>()
     val user: LiveData<UserModel?> = _user
 
+    private val _favorite = MutableLiveData<UserModel>()
+    var favorite: LiveData<UserModel> = _favorite
+
     private val _followers = MutableLiveData<List<UserModel>>()
     val followers: LiveData<List<UserModel>> = _followers
 
@@ -30,6 +33,9 @@ class DetailViewModel @Inject constructor(
 
     private val _isError = MutableLiveData<String>()
     val isError: LiveData<String> = _isError
+
+    private val _isFavorite = MutableLiveData<Boolean>()
+    val isFavorite: LiveData<Boolean> = _isFavorite
 
     fun getUserDetail(username: String) = viewModelScope.launch {
         _isLoading.postValue(true)
@@ -74,5 +80,17 @@ class DetailViewModel @Inject constructor(
                 _isError.postValue(result.exception.message)
             }
         }
+    }
+
+    fun insertFavorite(userModel: UserModel) = viewModelScope.launch {
+        _isFavorite.postValue(true)
+        repository.insertFavorite(userModel)
+    }
+
+    fun getFavorite(login: String): LiveData<UserModel> = repository.getFavoriteByUsername(login)
+
+    fun deleteFavorite(userModel: UserModel) = viewModelScope.launch {
+        _isFavorite.postValue(false)
+        repository.deleteFavorite(userModel)
     }
 }

@@ -1,8 +1,8 @@
 package com.cascer.githubuserapp.data.repository
 
-import androidx.lifecycle.LiveData
 import com.cascer.githubuserapp.data.api.ApiService
 import com.cascer.githubuserapp.data.db.UserDao
+import com.cascer.githubuserapp.data.db.entity.UserEntity
 import com.cascer.githubuserapp.data.model.UserModel
 import com.cascer.githubuserapp.data.model.mapper.Mapper.emptyUserModel
 import com.cascer.githubuserapp.data.model.mapper.Mapper.toModel
@@ -69,31 +69,33 @@ class RepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getFavorites(): LiveData<List<UserModel>> {
+    override suspend fun getFavorites(): List<UserModel> {
         return withContext(ioDispatcher) {
-            userDao.fetchAll()
+            userDao.fetchAll().map { it.toModel() }
         }
     }
 
-    override fun getFavoriteByUsername(login: String): LiveData<UserModel> {
-        return userDao.fetchByUsername(login)
-    }
-
-    override suspend fun insertFavorite(userModel: UserModel) {
-        withContext(ioDispatcher) {
-            userDao.insert(userModel)
+    override suspend fun getFavoriteByUsername(login: String): UserModel {
+        return withContext(ioDispatcher) {
+            userDao.fetchByUsername(login).toModel()
         }
     }
 
-    override suspend fun deleteFavorite(userModel: UserModel) {
+    override suspend fun insertFavorite(user: UserEntity) {
         withContext(ioDispatcher) {
-            userDao.insert(userModel)
+            userDao.insert(user)
         }
     }
 
-    override suspend fun updateFavorite(userModel: UserModel) {
+    override suspend fun deleteFavorite(id: Int) {
         withContext(ioDispatcher) {
-            userDao.insert(userModel)
+            userDao.delete(id)
+        }
+    }
+
+    override suspend fun updateFavorite(user: UserEntity) {
+        withContext(ioDispatcher) {
+            userDao.update(user)
         }
     }
 }

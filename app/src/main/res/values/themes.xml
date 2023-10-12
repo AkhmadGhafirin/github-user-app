@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.GithubUserApp" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
@@ -6,4 +6,11 @@
     </style>
 
     <style name="Theme.GithubUserApp" parent="Base.Theme.GithubUserApp" />
+
+    <style name="Theme.GithubUserApp.Toolbar" parent="Widget.MaterialComponents.Toolbar">
+        <item name="titleTextColor">@color/black</item>
+        <item name="title">@string/toolbar_title</item>
+        <item name="background">@color/white</item>
+        <item name="menu">@menu/menu_main</item>
+    </style>
 </resources>

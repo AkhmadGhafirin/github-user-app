@@ -19,7 +19,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "API_KEY", "\"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\"")
+        buildConfigField("String", "API_KEY", "\"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\"")
         buildConfigField("String", "BASE_URL", "\"https://api.github.com/\"")
     }
 
@@ -58,6 +58,7 @@ dependencies {
 
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 
     implementation("androidx.room:room-runtime:2.5.2")
     kapt("androidx.room:room-compiler:2.5.2")

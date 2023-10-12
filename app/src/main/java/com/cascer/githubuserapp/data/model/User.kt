@@ -1,24 +1,13 @@
 package com.cascer.githubuserapp.data.model
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
-@Entity(tableName = "user")
 data class UserModel(
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
     val id: Int = 0,
-    @ColumnInfo(name = "avatarUrl")
     val avatarUrl: String,
-    @ColumnInfo(name = "login")
     val login: String,
-    @ColumnInfo(name = "name")
     val name: String,
-    @ColumnInfo(name = "followers")
     val followers: Int,
-    @ColumnInfo(name = "following")
     val following: Int
 )
 

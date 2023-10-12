@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cascer.githubuserapp.data.model.UserModel
+import com.cascer.githubuserapp.data.model.mapper.Mapper.toEntity
 import com.cascer.githubuserapp.data.repository.Repository
 import com.cascer.githubuserapp.utils.network.Results
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -82,15 +83,17 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-    fun insertFavorite(userModel: UserModel) = viewModelScope.launch {
+    fun insertFavorite(user: UserModel) = viewModelScope.launch {
         _isFavorite.postValue(true)
-        repository.insertFavorite(userModel)
+        repository.insertFavorite(user.toEntity())
     }
 
-    fun getFavorite(login: String): LiveData<UserModel> = repository.getFavoriteByUsername(login)
+    fun getFavorite(login: String) = viewModelScope.launch {
+        _favorite.postValue(repository.getFavoriteByUsername(login))
+    }
 
-    fun deleteFavorite(userModel: UserModel) = viewModelScope.launch {
+    fun deleteFavorite(id: Int) = viewModelScope.launch {
         _isFavorite.postValue(false)
-        repository.deleteFavorite(userModel)
+        repository.deleteFavorite(id)
     }
 }

@@ -3,9 +3,11 @@ package com.cascer.githubuserapp.ui.list
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.cascer.githubuserapp.data.model.UserModel
 import com.cascer.githubuserapp.data.repository.Repository
+import com.cascer.githubuserapp.utils.SettingPreferences
 import com.cascer.githubuserapp.utils.network.Results
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -13,7 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val repository: Repository
+    private val repository: Repository,
+    private val settingPreferences: SettingPreferences
 ) : ViewModel() {
 
     private val _users = MutableLiveData<List<UserModel>>()
@@ -38,5 +41,13 @@ class MainViewModel @Inject constructor(
                 _isError.postValue(result.exception.message)
             }
         }
+    }
+
+    fun getThemeSettings(): LiveData<Boolean> {
+        return settingPreferences.getThemeSetting().asLiveData()
+    }
+
+    fun saveThemeSetting(isDarkMode: Boolean) = viewModelScope.launch {
+        settingPreferences.saveThemeSetting(isDarkMode)
     }
 }

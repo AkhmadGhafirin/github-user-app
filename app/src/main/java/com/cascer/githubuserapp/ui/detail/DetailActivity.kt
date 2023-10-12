@@ -20,6 +20,7 @@ class DetailActivity : AppCompatActivity() {
     private val viewModel: DetailViewModel by viewModels()
 
     private var isFavorite = false
+    private var favoriteId = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +37,7 @@ class DetailActivity : AppCompatActivity() {
             ivUser.loadCircle(this@DetailActivity, user.avatarUrl)
             tvName.text = user.name
             tvUsername.text = user.login
+            viewModel.getFavorite(user.login)
             val viewPagerAdapter = ViewPagerAdapter(this@DetailActivity, user.login)
             viewPager.adapter = viewPagerAdapter
             TabLayoutMediator(tabLayout, viewPager) { tab, position ->
@@ -48,11 +50,13 @@ class DetailActivity : AppCompatActivity() {
 
             fabFavorite.setOnClickListener {
                 if (isFavorite) {
-                    viewModel.deleteFavorite(user)
-                    Toast.makeText(this@DetailActivity, "Remove from Favorite", Toast.LENGTH_SHORT).show()
+                    viewModel.deleteFavorite(favoriteId)
+                    Toast.makeText(this@DetailActivity, "Remove from Favorite", Toast.LENGTH_SHORT)
+                        .show()
                 } else {
                     viewModel.insertFavorite(user)
-                    Toast.makeText(this@DetailActivity, "Add to Favorite", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@DetailActivity, "Add to Favorite", Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
         }
@@ -73,6 +77,7 @@ class DetailActivity : AppCompatActivity() {
                 showFavIcon(it)
             }
             favorite.observe(this@DetailActivity) {
+                favoriteId = it.id
                 showFavIcon(it.login.isNotEmpty())
             }
         }

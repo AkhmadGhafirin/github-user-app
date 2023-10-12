@@ -4,9 +4,9 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.cascer.githubuserapp.data.model.UserModel
+import com.cascer.githubuserapp.data.db.entity.UserEntity
 
-@Database(entities = [UserModel::class], version = 1)
+@Database(entities = [UserEntity::class], version = 1)
 abstract class UserDatabase : RoomDatabase() {
     abstract fun dao(): UserDao
 
